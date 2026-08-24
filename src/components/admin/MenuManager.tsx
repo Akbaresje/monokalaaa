@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { categories, rupiah, type Addon, type Category, type MenuItem } from "../../data/menu";
 import { useStore } from "../../store/store";
+import ImageUploader from "./ImageUploader";
 
 const blank = (): MenuItem => ({
   id: `x${Date.now()}`,
@@ -54,20 +55,13 @@ function Editor({ item, onClose }: { item: MenuItem; onClose: () => void }) {
         </div>
 
         <div className="mt-5 space-y-4">
-          {/* Preview foto */}
-          {draft.image && (
-            <img
-              src={draft.image}
-              alt=""
-              className="h-36 w-full rounded-[8px] border border-sand object-cover"
-            />
-          )}
+          {/* Uploader foto dengan crop */}
+          <ImageUploader value={draft.image} onChange={(url) => set("image", url)} />
 
           {/* Field teks dasar */}
           {[
             { k: "name" as const, label: "Nama menu", ph: "Kala Latte" },
             { k: "origin" as const, label: "Origin / subjudul", ph: "Single Origin · Gayo" },
-            { k: "image" as const, label: "URL foto", ph: "https://…" },
           ].map((f) => (
             <label key={f.k} className="block">
               <span className="smallcaps text-[9px] text-muted">{f.label}</span>
